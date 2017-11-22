@@ -1,0 +1,7 @@
+*.bak
+*.orig
+*.user
+*.autosave
+*.png
+
+/build*/
