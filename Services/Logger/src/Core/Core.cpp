@@ -10,7 +10,7 @@ Logger::Logger()
 
 }
 //==============================================================================
-void Logger::addNoteInLog(const std::string& text, MessageLevel lvl)
+void Logger::addNoteInLog(const Message &message)
 {
 
 }

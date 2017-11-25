@@ -13,14 +13,14 @@ class Logger
 {
 public:
   Logger();
-  virtual ~Logger(){}
+  ~Logger(){}
 
   /*!
    * \brief addNoteInLog
    * \param text
    * \param lvl
    */
-  void addNoteInLog(const std::string &text, MessageLevel lvl = INFO);
+  void addNoteInLog(const Message& message);
 
 private:
   /*!

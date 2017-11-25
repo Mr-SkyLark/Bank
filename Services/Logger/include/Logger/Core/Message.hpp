@@ -20,6 +20,8 @@ public:
   Message(const std::string& message,
           MessageLevel messageLevel = INFO, time_t date = std::time(0));
 
+  void generateString(std::string& text);
+
 private:
   MessageLevel mLevel;
   time_t mDate;

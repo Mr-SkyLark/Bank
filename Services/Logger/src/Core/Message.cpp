@@ -1,4 +1,6 @@
 #include "Logger/Core/Message.hpp"
+// std
+#include <string.h>
 //==============================================================================
 namespace Service{
 namespace Log {
@@ -10,6 +12,12 @@ Message::Message(const std::string& message,
   , mMessage(message)
 {
 
+}
+
+void Message::generateString(std::string& text)
+{
+  text.clear();
+  text.append(mMessage);
 }
 //==============================================================================
 }} // !Service !Log
