@@ -1,31 +1,34 @@
-#ifndef _TERRITORY_LOGGER_H_
-#define _TERRITORY_LOGGER_H_
+#ifndef LOGGER_CORE_CORE_HPP
+#define LOGGER_CORE_CORE_HPP
 //==============================================================================
+#include "Message.hpp"
 // std
 #include <string>
+#include <map>
 //==============================================================================
-namespace Service
-{
-//==============================================================================
-
+namespace Service{
+namespace Log {
 //==============================================================================
 class Logger
 {
 public:
-  enum MessageLevel
-  {
-    INFO = 0,
-    WARNING,
-    ERROR
-  };
-
-  Logger(const std::string& text);
+  Logger();
   virtual ~Logger(){}
 
+  /*!
+   * \brief addNoteInLog
+   * \param text
+   * \param lvl
+   */
   void addNoteInLog(const std::string &text, MessageLevel lvl = INFO);
 
-protected:
+private:
+  /*!
+   * \brief mMessageList - Контейнер сообщений
+   */
+  std::map<int, std::string> mMessageList;
 };
-} // !Territory
+//==============================================================================
+}} // !Service !Log
 //==============================================================================
 #endif // !_TERRITORY_LOGGER_H_

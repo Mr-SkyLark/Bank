@@ -5,7 +5,7 @@ project(Logger)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/Log")
 #-------------------------------------------------------------------------------
 file(GLOB_RECURSE HEADERS 
-      "${CMAKE_CURRENT_SOURCE_DIR}/include/Log/*.h*")
+      "${CMAKE_CURRENT_SOURCE_DIR}/include/Logger/*.h*")
 file(GLOB_RECURSE SOURCES 
       "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 #-------------------------------------------------------------------------------
