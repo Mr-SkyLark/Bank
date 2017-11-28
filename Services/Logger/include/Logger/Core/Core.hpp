@@ -5,15 +5,16 @@
 // std
 #include <string>
 #include <map>
+#include <mutex>
 //==============================================================================
 namespace Service{
-namespace Log {
+namespace Logger {
 //==============================================================================
-class Logger
+class Core
 {
 public:
-  Logger();
-  ~Logger(){}
+  Core();
+  ~Core(){}
 
   /*!
    * \brief addNoteInLog
@@ -27,6 +28,7 @@ private:
    * \brief mMessageList - Контейнер сообщений
    */
   std::map<int, std::string> mMessageList;
+  std::mutex g_lock;
 };
 //==============================================================================
 }} // !Service !Log

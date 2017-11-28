@@ -5,7 +5,7 @@
 #include <ctime>
 //==============================================================================
 namespace Service{
-namespace Log {
+namespace Logger {
 //==============================================================================
 enum MessageLevel
 {
@@ -20,7 +20,7 @@ public:
   Message(const std::string& message,
           MessageLevel messageLevel = INFO, time_t date = std::time(0));
 
-  void generateString(std::string& text);
+  void generateString(std::string& text) const;
 
 private:
   MessageLevel mLevel;

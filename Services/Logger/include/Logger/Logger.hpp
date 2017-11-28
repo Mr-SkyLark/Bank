@@ -1,12 +1,12 @@
 #ifndef LOGGER_LOGGER_HPP
 #define LOGGER_LOGGER_HPP
 
-#include "Logger/Core/core.hpp"
+#include "Logger/Core/Core.hpp"
 
 using namespace Service;
 
-static Logger logger;
+static Logger::Core logger;
 
-#define LOG_MESSAGE
+#define LOG_MESSAGE( TEXT ) logger.addNoteInLog(TEXT)
 
 #endif
