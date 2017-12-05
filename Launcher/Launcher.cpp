@@ -7,12 +7,12 @@
 #include <vector>
 //==============================================================================
 
-
+//static std::mutex printMutex;
 
 void test(double& diff)
 {
   std::vector<double> result;
-  for( int counter = 0; counter < 3; ++counter)
+  for( int counter = 0; counter < 10000; ++counter)
   {
     result.push_back(clock());
 
@@ -22,16 +22,6 @@ void test(double& diff)
   }
   diff = clock() - result.front();
 
-}
-
-void test_empty(double& diff)
-{
-  std::vector<double> result;
-  for( int counter = 0; counter < 100000; ++counter)
-  {
-    result.push_back(clock());
-  }
-  diff = clock() - result.front();
 }
 
 int main(int argc, char** argv)
@@ -51,42 +41,19 @@ int main(int argc, char** argv)
     t.join();
   time2 = clock();
 
+  double res = 0;
+//  for(double tRes : timerResult)
+//     res += tRes;
+//  res = res / static_cast<double>(CLOCKS_PER_SEC);
+
   std::string message;
   message.append("Timer: ")
       .append(std::to_string((time2 - time1) / (double)CLOCKS_PER_SEC))
       .append(" - thread timer: ")
-      .append(std::to_string([&]() -> double {
-           double res = 0;
-           for(double tRes : timerResult)
-              res += tRes;
-           return res / (double)CLOCKS_PER_SEC;
-       } () ));
+      .append("0");
+
   LOG_MESSAGE(message);
 
-  timerResult.clear();
-  threadVector.clear();
-  message.clear();
-
-  time1 = clock();
-  for(int i = 0; i < 5; ++i)
-  {
-    timerResult.push_back(0);
-    threadVector.push_back(std::thread(test_empty, std::ref(timerResult[i])));
-  }
-  for(std::thread& t : threadVector)
-    t.join();
-  time2 = clock();
-
-  message.append("Timer: ")
-      .append(std::to_string((time2 - time1) / (double)CLOCKS_PER_SEC))
-      .append(" - thread timer: ")
-      .append(std::to_string([&]() -> double {
-           double res = 0;
-           for(double tRes : timerResult)
-              res += tRes;
-           return res / (double)CLOCKS_PER_SEC;
-       } () ));
-  LOG_MESSAGE(message);
 
   return 0;
 }
