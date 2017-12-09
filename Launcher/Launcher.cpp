@@ -12,7 +12,7 @@
 void test(double& diff)
 {
   std::vector<double> result;
-  for( int counter = 0; counter < 3; ++counter)
+  for( int counter = 0; counter < 100000; ++counter)
   {
     result.push_back(clock());
 
@@ -45,6 +45,9 @@ int main(int argc, char** argv)
   for(int i = 0; i < 5; ++i)
   {
     timerResult.push_back(0);
+  }
+  for(int i = 0; i < 5; ++i)
+  {
     threadVector.push_back(std::thread(test, std::ref(timerResult[i])));
   }
   for(std::thread& t : threadVector)

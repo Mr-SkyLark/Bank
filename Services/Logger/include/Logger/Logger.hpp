@@ -7,6 +7,6 @@ using namespace Service;
 
 static Logger::Core logger;
 
-#define LOG_MESSAGE( TEXT ) logger.addNoteInLog(TEXT)
+#define LOG_MESSAGE( TEXT ) logger.addNoteInLogOld(TEXT)
 
 #endif

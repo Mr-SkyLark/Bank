@@ -5,7 +5,9 @@
 // std
 #include <string>
 #include <map>
+#include <queue>
 #include <mutex>
+#include <condition_variable>
 //==============================================================================
 namespace Service{
 namespace Logger {
@@ -14,21 +16,43 @@ class Core
 {
 public:
   Core();
-  ~Core(){}
+  ~Core();
+
+  /*!
+   * \brief printProcess
+   */
+  void printProcess();
 
   /*!
    * \brief addNoteInLog
-   * \param text
-   * \param lvl
+   * \param message
    */
   void addNoteInLog(const Message& message);
 
+  /*!
+   * \brief addNoteInLogOld
+   * \param message
+   */
+  void addNoteInLogOld(const Message& message);
+
 private:
+  bool mDoneFlag;
   /*!
    * \brief mMessageList - Контейнер сообщений
    */
-  std::map<int, std::string> mMessageList;
-  std::mutex g_lock;
+  std::queue<std::string> mMessageList;
+  /*!
+   * \brief printMutex
+   */
+  std::mutex mPrintMutex;
+  /*!
+   * \brief printMutex
+   */
+  std::mutex mQueueMutex;
+  /*!
+   * \brief mLoggerConditionVariable
+   */
+  std::condition_variable mLoggerConditionVariable;
 };
 //==============================================================================
 }} // !Service !Log
