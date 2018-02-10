@@ -7,6 +7,8 @@ using namespace Service;
 
 static Logger::Core logger;
 
-#define LOG_MESSAGE( TEXT ) logger.addNoteInLogOld(TEXT)
+#define DEBUG_PRINT( TEXT ) \
+logger.printDebugMessage(Logger::Message(TEXT, Logger::DEBUG));
+#define LOG_MESSAGE( TEXT ) logger.addNoteInLog(TEXT);
 
 #endif

@@ -19,16 +19,20 @@ Message::Message(const std::string& message,
 void Message::generateString(std::string& text) const
 {
   text.clear();
-  tm *ltm = localtime(&mDate);
+  tm ltm;
+  localtime_s(&ltm, &mDate);
   std::stringstream data(std::stringstream::in | std::stringstream::out);
   //text.append(mMessage).append("\n");
-  data << 1900 + ltm->tm_year << "/"
-       << 1 + ltm->tm_mon << "/"
-       << ltm->tm_mday << " "
-       << 1 + ltm->tm_hour << ":"
-       << 1 + ltm->tm_min << ":"
-       << 1 + ltm->tm_sec << "\t";
+  data << 1900 + ltm.tm_year << "/"
+       << 1 + ltm.tm_mon << "/"
+       << ltm.tm_mday << " "
+       << 1 + ltm.tm_hour << ":"
+       << 1 + ltm.tm_min << ":"
+       << 1 + ltm.tm_sec << "\t";
   switch (mLevel) {
+  case DEBUG:
+    data << "[DBG] - ";
+    break;
   case INFO:
     data << "[INF] - ";
     break;

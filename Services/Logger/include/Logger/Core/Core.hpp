@@ -23,6 +23,8 @@ public:
    */
   void printProcess();
 
+  void stopLogger();
+
   /*!
    * \brief addNoteInLog
    * \param message
@@ -33,26 +35,41 @@ public:
    * \brief addNoteInLogOld
    * \param message
    */
-  void addNoteInLogOld(const Message& message);
+  void printDebugMessage(const Message& message);
+
+  std::mutex& getDoneMutex() const;
+  bool getDoneFlag() const;
+  std::condition_variable& getDoneSignal() const;
 
 private:
+  /*!
+   * \brief mDoneFlag
+   */
   bool mDoneFlag;
   /*!
    * \brief mMessageList - Контейнер сообщений
    */
   std::queue<std::string> mMessageList;
   /*!
-   * \brief printMutex
+   * \brief mPrintMutex
    */
-  std::mutex mPrintMutex;
+  mutable std::mutex mPrintMutex;
   /*!
-   * \brief printMutex
+   * \brief mQueueMutex
    */
-  std::mutex mQueueMutex;
+  mutable std::mutex mQueueMutex;
   /*!
-   * \brief mLoggerConditionVariable
+   * \brief mDoneMutex
    */
-  std::condition_variable mLoggerConditionVariable;
+  mutable std::mutex mDoneMutex;
+  /*!
+   * \brief mPrintSignal
+   */
+  mutable std::condition_variable mPrintSignal;
+  /*!
+   * \brief mDoneSignal
+   */
+  mutable std::condition_variable mDoneSignal;
 };
 //==============================================================================
 }} // !Service !Log

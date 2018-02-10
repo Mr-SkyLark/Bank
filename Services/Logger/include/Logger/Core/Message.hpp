@@ -9,7 +9,8 @@ namespace Logger {
 //==============================================================================
 enum MessageLevel
 {
-  INFO = 0,
+  DEBUG = 0,
+  INFO,
   WARNING,
   ERROR
 };

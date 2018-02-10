@@ -1,7 +1,9 @@
 cmake_minimum_required (VERSION 2.8.12)
 project (Me)
 
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++17 -pthread" )
+if(NOT WIN32)
+  SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++17 -pthread" )
+endif()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 #-------------------------------------------------------------------------------
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
