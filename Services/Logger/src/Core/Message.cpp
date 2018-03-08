@@ -3,9 +3,10 @@
 #include <string>
 #include <sstream>
 #include <thread>
+#include <time.h>
 //==============================================================================
-namespace Service{
-namespace Logger {
+namespace Server{
+namespace Logger{
 //==============================================================================
 Message::Message(const std::string& message,
         MessageLevel level, time_t date)
@@ -20,7 +21,7 @@ void Message::generateString(std::string& text) const
 {
   text.clear();
   tm ltm;
-  localtime_s(&ltm, &mDate);
+  localtime_r(&mDate, &ltm);
   std::stringstream data(std::stringstream::in | std::stringstream::out);
   //text.append(mMessage).append("\n");
   data << 1900 + ltm.tm_year << "/"

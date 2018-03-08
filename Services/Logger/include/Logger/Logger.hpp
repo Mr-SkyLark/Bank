@@ -3,12 +3,19 @@
 
 #include "Logger/Core/Core.hpp"
 
-using namespace Service;
+#define INIT_LOGGER \
+  Server::Logger::Core& caramba_logger = Server::Logger::Core::get();\
+  std::string caramba_meassge_log;
 
-static Logger::Core logger;
-
-#define DEBUG_PRINT( TEXT ) \
-logger.printDebugMessage(Logger::Message(TEXT, Logger::DEBUG));
-#define LOG_MESSAGE( TEXT ) logger.addNoteInLog(TEXT);
+#define LOG_DEBUG_MESSAGE( TEXT ) \
+{ \
+  caramba_meassge_log = TEXT; \
+  caramba_logger.printDebugMessage(Server::Logger::Message(caramba_meassge_log, Logger::DEBUG)); \
+}
+#define LOG_MESSAGE( TEXT ) \
+{ \
+  caramba_meassge_log = TEXT; \
+  caramba_logger.addNoteInLog(caramba_meassge_log); \
+}
 
 #endif

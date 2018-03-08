@@ -4,8 +4,8 @@
 #include <string>
 #include <ctime>
 //==============================================================================
-namespace Service{
-namespace Logger {
+namespace Server{
+namespace Logger{
 //==============================================================================
 enum MessageLevel
 {

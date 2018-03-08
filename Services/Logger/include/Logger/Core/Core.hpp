@@ -9,14 +9,24 @@
 #include <mutex>
 #include <condition_variable>
 //==============================================================================
-namespace Service{
-namespace Logger {
+namespace Server{
+namespace Logger{
+//==============================================================================
+class Core;  // опережающее объявление
+//==============================================================================
+class CoreSingletonDestroyer
+{
+public:
+  ~CoreSingletonDestroyer();
+  void init( Core* core );
+private:
+  Core* mCore;
+};
 //==============================================================================
 class Core
 {
 public:
-  Core();
-  ~Core();
+  static Core& get();
 
   /*!
    * \brief printProcess
@@ -41,11 +51,21 @@ public:
   bool getDoneFlag() const;
   std::condition_variable& getDoneSignal() const;
 
-private:
+protected:
+  Core();
+  Core( const Core& );
+  Core& operator=( Core& );
+  ~Core();
+  friend class CoreSingletonDestroyer;
+
+private:  
+  static Core* mCore;
+  static CoreSingletonDestroyer destroyer;
   /*!
    * \brief mDoneFlag
    */
   bool mDoneFlag;
+  bool mFinishHim;
   /*!
    * \brief mMessageList - Контейнер сообщений
    */

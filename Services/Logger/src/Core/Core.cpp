@@ -1,19 +1,30 @@
 #include "Logger/Core/Core.hpp"
-#include "json.hpp"
 // std
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <chrono>
 
-void printProcessTo()
-{}
-
 //==============================================================================
-namespace Service{
-namespace Logger {
+namespace Server{
+namespace Logger{
+//==============================================================================  
+Core * Core::mCore = 0;
+CoreSingletonDestroyer Core::destroyer;
+//==============================================================================
+CoreSingletonDestroyer::~CoreSingletonDestroyer()
+{
+  delete mCore;
+}
+//==============================================================================
+void CoreSingletonDestroyer::init( Core* core )
+{
+  mCore = core;
+}
 //==============================================================================
 Core::Core()
   : mDoneFlag(false)
+  , mFinishHim(false)
 {
   std::thread printTread(&Core::printProcess, this);
   printTread.detach();
@@ -21,33 +32,62 @@ Core::Core()
 //==============================================================================
 Core::~Core()
 {
-  mDoneFlag = true;
-//  mPrintMutex.unlock();
-//  mQueueMutex.unlock();
-//  mDoneMutex.unlock();
-  //mPrintSignal.notify_one();
+  std::cout << " --- log distructor1\n";
+  mFinishHim = true;
+  std::unique_lock<std::mutex> lock(mDoneMutex);
+  while(!mDoneFlag) // против ложных пробуждений
+    mDoneSignal.wait(lock);
+  std::cout << " --- log distructor2\n";
+}
+//==============================================================================
+Core& Core::get()
+{
+  if(!mCore)
+  {
+    mCore = new Core();
+    destroyer.init( mCore);
+  }
+  return *mCore;
 }
 //==============================================================================
 void Core::printProcess()
 {
-  while(!mDoneFlag)
+  std::queue<std::string> tempQueue;
+  while(true)
   {
-    std::unique_lock<std::mutex> queueMutex(mQueueMutex);
-    mPrintSignal.wait(queueMutex,
-                      [&]()->bool{return (!mMessageList.empty() || mDoneFlag);});
-    while(!mMessageList.empty())
     {
+      std::unique_lock<std::mutex> queueMutex(mQueueMutex);
+      mPrintSignal.wait(queueMutex,
+                        [&](){return ( (mMessageList.size() > 100 &&
+                                      tempQueue.empty() ) ||
+                                      mFinishHim);} );
+      tempQueue.swap(mMessageList);
+    }
+    std::unique_lock<std::mutex> printMutex(mPrintMutex);
+    std::ofstream logFile;
+    logFile.open ("Log.txt", std::ios::out | std::ios::app);
+    if(logFile.is_open())
+    {
+      while(!tempQueue.empty())
       {
-        std::unique_lock<std::mutex> printMutex(mPrintMutex);
-        std::cout << mMessageList.front();
+        logFile << tempQueue.front();
+        tempQueue.pop();
       }
+      logFile.close();
+    }
+    else
+    {
+      while(!tempQueue.empty())
       {
-        //std::unique_lock<std::mutex> queueMutex(mQueueMutex);
-        mMessageList.pop();
+        std::cout << tempQueue.front();
+        tempQueue.pop();
       }
     }
+    if(mFinishHim == true)
+      break;
   }
   std::unique_lock<std::mutex> doneLock(mDoneMutex);
+  mDoneFlag = true;
   std::notify_all_at_thread_exit(mDoneSignal, std::move(doneLock));
 }
 //==============================================================================
@@ -57,15 +97,13 @@ void Core::stopLogger()
   mPrintSignal.notify_one();
 }
 //==============================================================================
-void Core::addNoteInLog(const Message &message)
+void Core::addNoteInLog(const Message& message)
 {
   std::string text;
   message.generateString(text);
-  {
-    std::unique_lock<std::mutex> queueMutex(mQueueMutex);
-    mMessageList.push(text);
-  }
-  //mPrintSignal.notify_one();
+  std::unique_lock<std::mutex> queueMutex(mQueueMutex);
+  mMessageList.push(text);
+  mPrintSignal.notify_one();
 }
 //==============================================================================
 void Core::printDebugMessage(const Message &message)
