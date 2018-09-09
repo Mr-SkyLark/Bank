@@ -7,7 +7,7 @@ file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c*")
 #-------------------------------------------------------------------------------
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}")
 #-------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
+add_library(${PROJECT_NAME} ${BASE_LINK_TYPE} ${HEADERS} ${SOURCES})
 #-------------------------------------------------------------------------------
 set_target_properties(${PROJECT_NAME} 
                       PROPERTIES
