@@ -12,5 +12,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeTools")
 #-------------------------------------------------------------------------------
 add_subdirectory(Launcher)
-add_subdirectory(therdparty)
+add_subdirectory(Therdparty)
 add_subdirectory(Services)
+add_subdirectory(BaseLibrary)

@@ -21,7 +21,7 @@ void Message::generateString(std::string& text) const
 {
   text.clear();
   tm ltm;
-  localtime_r(&mDate, &ltm);
+  //localtime_r(&mDate, &ltm);
   std::stringstream data(std::stringstream::in | std::stringstream::out);
   //text.append(mMessage).append("\n");
   data << 1900 + ltm.tm_year << "/"
