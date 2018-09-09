@@ -14,6 +14,11 @@ BString::BString(const std::string& text)
 
 }
 
+BString::BString(const BString& text)
+{
+
+}
+
 BString::~BString()
 {
 
