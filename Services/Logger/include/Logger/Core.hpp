@@ -39,7 +39,8 @@ public:
    * \brief addNoteInLog
    * \param message
    */
-  void addNoteInLog(const Message& message);
+  void addNoteInLog(const BString& message);
+  void addNoteInLog(const char* message);
 
   /*!
    * \brief addNoteInLogOld

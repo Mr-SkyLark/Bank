@@ -1,35 +1,26 @@
-#include "BString.hpp"
+#include "ConcreteText.hpp"
 //==============================================================================
-BString::BString()
+namespace Server{
+namespace Logger{
+//==============================================================================
+ConcreteText::ConcreteText()
 {
 
 }
 //==============================================================================
-BString::BString(char* text)
-  : mData(text)
+void ConcreteText::generateString() const
 {
 
 }
 //==============================================================================
-BString::BString(const std::string& text)
-: mData(text)
+Message::Level ConcreteText::getLevel() const
 {
-
+  return mLevel;
 }
 //==============================================================================
-BString::BString(const BString& text)
-: mData(text)
+void ConcreteText::append(const BString &info)
 {
-
+  mPrefix.append(info);
 }
 //==============================================================================
-BString::~BString()
-{
-
-}
-//==============================================================================
-const std::string& BString::getData()
-{
-  return mData;
-}
-//==============================================================================
+}} // !Service !Log

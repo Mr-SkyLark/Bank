@@ -1,7 +1,7 @@
 #ifndef LOGGER_LOGGER_HPP
 #define LOGGER_LOGGER_HPP
 
-#include "Logger/Core/Core.hpp"
+#include "Logger/Core.hpp"
 
 #define INIT_LOGGER \
   Server::Logger::Core& caramba_logger = Server::Logger::Core::get();\

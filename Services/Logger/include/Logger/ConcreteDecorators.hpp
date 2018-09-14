@@ -1,32 +1,31 @@
-#ifndef LOGGER_CORE_MESSAGE_HPP_
-#define LOGGER_CORE_MESSAGE_HPP_
+#ifndef LOGGER_CONCRETE_DECORATOR_HPP_
+#define LOGGER_CONCRETE_DECORATOR_HPP_
 //==============================================================================
-#include <string>
-#include <ctime>
+// Logger
+#include "Decorator.hpp"
+// std
+#include <memory>
 //==============================================================================
 namespace Server{
 namespace Logger{
 //==============================================================================
-enum MessageLevel
-{
-  DEBUG = 0,
-  INFO,
-  WARNING,
-  ERROR
-};
-//==============================================================================
-class Message
+class TypeDecorator: public Decorator
 {
 public:
-  Message(const std::string& message,
-          MessageLevel messageLevel = INFO, time_t date = std::time(0));
+  TypeDecorator(Message* message);
+  ~TypeDecorator(){}
 
-  void generateString(std::string& text) const;
+  virtual void generateString() const override;
+  virtual Level getLevel() const override;
 
 private:
-  MessageLevel mLevel;
-  time_t mDate;
-  std::string mMessage;
+  TypeDecorator(){}
+  TypeDecorator(const TypeDecorator&){}
+  const TypeDecorator operator=(const TypeDecorator&){}
+
+private:
+  std::shared_ptr<Message> mMessage;
+
 };
 //==============================================================================
 }} // !Service !Core

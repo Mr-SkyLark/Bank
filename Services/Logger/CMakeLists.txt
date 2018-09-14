@@ -16,7 +16,7 @@ set_target_properties(${PROJECT_NAME}
                           DEBUG_POSTFIX "_d")
 											
 #-------------------------------------------------------------------------------
-target_link_libraries(${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} PRIVATE BaseLibrary)
 target_include_directories(${PROJECT_NAME} PUBLIC
                              "${CMAKE_CURRENT_BINARY_DIR}/include"
                              "${CMAKE_CURRENT_SOURCE_DIR}/include")
